@@ -1,0 +1,57 @@
+package holaMundo;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Locale;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+public class HolaMundo {
+
+	/*public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//TODO tipeando "syso + [ctrl] + [space] = System.out.println();
+		int a = 5;
+		int b = 3;
+		int c = a + b;
+		
+		//System.out.println("primer sumando " + a + "segundo sumando " + b + " resultado: " + c);
+		//JOptionPane.showMessageDialog(null, "primer sumando " + a + "\n segundo sumando " + b + "\nresultado: " + c);
+		Scanner entrada;
+		try{
+			File archivo = new File("C:/prueba.txt");
+			entrada = new Scanner(archivo);
+			
+			while (entrada.hasNextLine()) {
+				String dato = entrada.nextLine();
+				System.out.println(dato);
+				
+			}
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		finally {
+			entrada.close();
+		}	
+		
+	}*/
+
+	public static void main(String[] args) throws IOException {
+		
+		String miPath = "C:\\";
+		
+		PrintWriter salida = new PrintWriter(new FileWriter(miPath+"salida.out"));  //  preparo el arch de salida
+	     
+	    int z=50;
+	    String s="dni:";
+	    salida.print(s);      
+		salida.println(" "+z); 
+		salida.close(); //esto escribe : dni: 50
+
+	}
+	
+	
+}

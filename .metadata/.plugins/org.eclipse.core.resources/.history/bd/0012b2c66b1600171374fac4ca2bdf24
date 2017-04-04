@@ -1,0 +1,52 @@
+package holaMundo;
+import java.io.File;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+public class HolaMundo {
+
+	/*public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		//TODO tipeando "syso + [ctrl] + [space] = System.out.println();
+		int a = 5;
+		int b = 3;
+		int c = a + b;
+		
+		//System.out.println("primer sumando " + a + "segundo sumando " + b + " resultado: " + c);
+		//JOptionPane.showMessageDialog(null, "primer sumando " + a + "\n segundo sumando " + b + "\nresultado: " + c);
+		Scanner entrada;
+		try{
+			File archivo = new File("C:/prueba.txt");
+			entrada = new Scanner(archivo);
+			
+			while (entrada.hasNextLine()) {
+				String dato = entrada.nextLine();
+				System.out.println(dato);
+				
+			}
+		}catch(Exception e){
+			System.out.println(e.getMessage());
+		}
+		finally {
+			entrada.close();
+		}	
+		
+	}*/
+
+	public static void main(String[] args) throws FileNotFoundException {
+		
+		String miPath = "C:/prueba.txt";
+		Scanner sc = new Scanner(new File(miPath+"datos.in"));
+		sc.useLocale(Locale.ENGLISH);
+		double [] vec = new double[sc.nextInt()]; // vector para almacenar la lectura
+		
+		for (int i = 0; i < vec.length ; i++) {
+			vec[i] =sc.nextDouble() ;
+			System.out.println( vec[i]);
+		}
+		
+		sc.close();
+
+	}
+}

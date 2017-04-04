@@ -1,0 +1,16 @@
+
+public class Punto2D {
+
+	private double x;
+	private double y;
+	
+	public void print(){
+		System.out.println("esto funciona" + toString());
+	}
+	
+	public static void main(String[] args) {
+		Punto2D punto = new Punto2D();
+		System.out.println(punto);
+	}
+
+}

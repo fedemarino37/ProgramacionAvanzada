@@ -1,0 +1,28 @@
+package holaMundo;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Locale;
+import java.util.Scanner;
+
+import javax.swing.JOptionPane;
+
+public class HolaMundo {
+
+	public static void main(String[] args) throws IOException {
+		
+		String miPath = "C:\\";
+		
+		PrintWriter salida = new PrintWriter(new FileWriter(miPath+"salida.out", true));  //  preparo el arch de salida
+	    int z=50;
+	    String s="dni:";
+	    salida.print(s);      
+		salida.println(" "+z); 
+		salida.close(); //esto escribe : dni: 50
+
+	}
+	
+	
+}

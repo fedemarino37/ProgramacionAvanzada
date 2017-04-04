@@ -1,0 +1,19 @@
+package punto;
+
+public class Punto3D extends Punto2D{
+
+	private double z;
+
+
+	@Override
+	public String toString() {
+		return "Punto3D [x=" + x + ", y=" + y + ", z=" + z + "]";
+	}
+
+
+	public static void main(String[] args) {
+		Punto3D punto = new Punto3D();
+		System.out.println(punto);
+	}
+
+}
