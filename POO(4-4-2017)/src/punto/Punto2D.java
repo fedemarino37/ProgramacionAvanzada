@@ -16,15 +16,36 @@ public class Punto2D {
 		this.y = y;
 	}
 	
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Punto2D other = (Punto2D) obj;
+		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
+			return false;
+		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
+			return false;
+		return true;
+	}
+	
+	@Override
+	protected Punto2D clone() throws CloneNotSupportedException {
+		// TODO Auto-generated method stub
+		return new Punto2D(x,y);
+	}
+	@Override
+	protected void finalize() throws Throwable {
+		// TODO Auto-generated method stub
+		super.finalize();
+	}
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "(" + x + ", " + y + ")";
 	}
-	
-	/*public static void main(String[] args) {
-		Punto2D punto = new Punto2D();
-		System.out.println(punto);
-	}*/
-
 }
