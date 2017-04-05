@@ -9,6 +9,8 @@ public class Main {
 		Punto3D punto2 = new Punto3D(3, 3, 3);
 		//punto = punto2;
 		punto = punto2.clone();
+		System.out.println(punto.hashCode());
+		System.out.println(punto2.hashCode());
 		System.out.println(punto == punto2);
 		
 		

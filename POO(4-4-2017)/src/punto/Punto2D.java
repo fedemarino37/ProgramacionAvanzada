@@ -16,6 +16,17 @@ public class Punto2D {
 		this.y = y;
 	}
 	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		long temp;
+		temp = Double.doubleToLongBits(x);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(y);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
 
 	@Override
 	public boolean equals(Object obj) {
@@ -38,14 +49,19 @@ public class Punto2D {
 		// TODO Auto-generated method stub
 		return new Punto2D(x,y);
 	}
+	
 	@Override
 	protected void finalize() throws Throwable {
 		// TODO Auto-generated method stub
 		super.finalize();
 	}
+	
 	@Override
 	public String toString() {
 		// TODO Auto-generated method stub
 		return "(" + x + ", " + y + ")";
 	}
+
+	
+	
 }

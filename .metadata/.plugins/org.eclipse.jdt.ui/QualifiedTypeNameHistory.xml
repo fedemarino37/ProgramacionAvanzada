@@ -18,4 +18,6 @@
 <fullyQualifiedTypeName name="Punto2D"/>
 <fullyQualifiedTypeName name="punto.Punto2D"/>
 <fullyQualifiedTypeName name="punto.Punto3D"/>
+<fullyQualifiedTypeName name="luchadores.Luchador"/>
+<fullyQualifiedTypeName name="java.util.List"/>
 </qualifiedTypeNameHistroy>

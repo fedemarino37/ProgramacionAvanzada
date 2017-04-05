@@ -13,6 +13,16 @@ public class Punto3D extends Punto2D{
 	}
 	
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		long temp;
+		temp = Double.doubleToLongBits(z);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		return result;
+	}
+	
+	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
@@ -41,5 +51,7 @@ public class Punto3D extends Punto2D{
 	public String toString() {
 		return "Punto3D [x=" + x + ", y=" + y + ", z=" + z + "]";
 	}
+
+	
 	
 }
