@@ -23,5 +23,9 @@ public class Luchador {
 		}
 		return false;
 	}
+	@Override
+	public String toString() {
+		return "Luchador [peso=" + peso + ", altura=" + altura + "]";
+	}
 	
 }

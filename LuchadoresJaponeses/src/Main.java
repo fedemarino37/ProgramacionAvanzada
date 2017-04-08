@@ -8,9 +8,10 @@ public class Main {
 		// TODO Auto-generated method stub
 		String path = "C:/Users/VisionStudio/Documents/Github/ProgramacionAvanzada/LuchadoresJaponeses/archivos/in.txt";
 		
-		Torneo torneo = new Torneo();
-		
-		torneo.leerArchivo(path);
+		Torneo torneo = new Torneo(path);
+		torneo.printLuchadores();
+		torneo.evaluarLuchadores();
+		torneo.printDominaciones();
 	}
 
 }
