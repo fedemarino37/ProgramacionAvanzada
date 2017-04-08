@@ -1,0 +1,28 @@
+package complejo;
+
+public class Complejo {
+	private float real;
+	private float imaginario;
+	public Complejo(int entero, int imaginario){
+		this.real = entero;
+		this.imaginario = imaginario;
+	}
+	
+	
+	
+	@Override
+	public String toString() {
+		return "(" + real + ", " + imaginario + "i)";
+	}
+
+
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Complejo comp = new Complejo(10, 5);
+		System.out.println(comp);
+	}
+
+
+	
+}

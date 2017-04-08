@@ -1,9 +1,16 @@
+import java.io.FileNotFoundException;
+
+import luchadores.*;
 
 public class Main {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws FileNotFoundException {
 		// TODO Auto-generated method stub
- 
+		String path = "C:/Users/VisionStudio/Documents/Github/ProgramacionAvanzada/LuchadoresJaponeses/archivos/in.txt";
+		
+		Torneo torneo = new Torneo();
+		
+		torneo.leerArchivo(path);
 	}
 
 }

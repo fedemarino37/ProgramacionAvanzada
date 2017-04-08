@@ -1,0 +1,19 @@
+package complejo;
+
+public class Complejo {
+	private int entero;
+	private int imaginario;
+	public Complejo(int entero, int imaginario){
+		this.entero = entero;
+		this.imaginario = imaginario;
+	}
+	
+	
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+
+	}
+
+
+	
+}

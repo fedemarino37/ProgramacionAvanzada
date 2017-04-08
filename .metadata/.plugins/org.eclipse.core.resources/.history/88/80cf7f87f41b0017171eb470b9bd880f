@@ -1,0 +1,16 @@
+package luchadores;
+
+import java.util.ArrayList;
+
+public class Torneo {
+
+	private ArrayList<Luchador>luchadores;
+	public Torneo(){
+		luchadores = new ArrayList<Luchador>();
+	}
+	
+	public void agregarLuchador(Luchador luchador)
+	{
+		luchadores.add(luchador);
+	}
+}
