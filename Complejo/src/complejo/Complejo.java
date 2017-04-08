@@ -1,9 +1,10 @@
 package complejo;
 import java.lang.Math;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-public class Complejo {
+public class Complejo implements Comparable<Complejo> {
 	private double real;
 	private double imaginario;
 	public Complejo(double real, double imaginario){
@@ -15,6 +16,13 @@ public class Complejo {
 		this(0, 0);
 	}
 	
+	public double getReal(){
+		return this.real;
+	}
+	
+	public double getImaginario(){
+		return this.imaginario;
+	}
 	
 	@Override
 	public String toString() {
@@ -84,11 +92,19 @@ public class Complejo {
 		return true;
 	}
 
-	public Complejo clone()
-	{
+
+	@Override
+	protected Object clone() {
 		return new Complejo(this.real, this.imaginario);
 	}
 
+	@Override
+	public int compareTo(Complejo c2) {
+		if (this.modulo() > c2.modulo()) return 1;
+		if (this.modulo() < c2.modulo()) return -1;
+		return 0;
+	}
+	
 	public static void main(String[] args) {
 		Complejo z1 = new Complejo();
 		Complejo z2 = new Complejo(2,2);
@@ -99,8 +115,23 @@ public class Complejo {
 		System.out.println(z2.multiplicar(z3));
 		z3 = z1.sumar(z2);
 		System.out.println(z3); // muestra 2,2
-		z2 = (Complejo) z1.clone();
+		z2 = (Complejo)z1.clone();
 		System.out.println(z2);
+		
+		int TAM = 10;
+		Complejo[] vComplejo = new Complejo[TAM];
+				
+		for (int i = 0; i < TAM; i++)
+			vComplejo[i] = new Complejo(Math.sin(i+10),Math.cos(i+20));
+		
+		for (int i = 0; i < TAM; i++)
+			System.out.println(vComplejo[i].modulo());
+
+		Arrays.sort(vComplejo);
+		System.out.println("Ahora ordenado");
+		
+		for (int i = 0; i < TAM; i++)
+			System.out.println(vComplejo[i].modulo());
 	}
 
 }
