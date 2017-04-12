@@ -31,7 +31,7 @@ public class Main {
 		bus.agregarPasajero(new Persona("martin", "lala", 22));
 		bus.agregarPasajero(new Persona("kike", "Perolo", 23));
 		bus.agregarPasajero(new Persona("fede", "Perolo", 24));
-		bus.bajarTodosPasajeros();
+		
 		bus.cambiarChofer(new Persona("elpela", "Perolo", 23));
 	}
 }
