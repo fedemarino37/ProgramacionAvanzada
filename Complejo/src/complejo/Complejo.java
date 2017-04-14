@@ -1,8 +1,6 @@
 package complejo;
 import java.lang.Math;
-import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Complejo implements Comparable<Complejo> {
 	private double real;
