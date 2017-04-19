@@ -111,4 +111,14 @@ public class MatrizMath {
 		}
 		return v_res;
 	}
+	
+	public MatrizMath producto(float k){
+		MatrizMath res = new MatrizMath(filas, columnas);
+		for (int i = 0; i < filas; i++) {
+			for (int j = 0; j < columnas; j++){
+				res.matriz[i][j] = this.matriz[i][j] * k;
+			}
+		}
+		return res;
+	}
 }

@@ -33,7 +33,7 @@ public class Main {
 		System.out.println(m1.producto(m3));
 		
 		System.out.println(m1.producto(new VectorMath(2, new double []{3, 2})));
-		
+		System.out.println(m1.producto((float)1.5));
 	}
 
 }
