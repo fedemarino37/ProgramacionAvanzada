@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 public class MatrizMath {
 
+	private static final double EPSILON = 1e-8;
 	private double [][]matriz;
 	private int columnas;
 	private int filas;
@@ -126,83 +127,71 @@ public class MatrizMath {
 		return res;
 	}
 	
-	// Intercambia dos filas
-	private void swap(int i, int j){
-		for (int k = 0; k < columnas; k++)
-		{
-			double temp = matriz[i][k];
-			matriz[i][k] = matriz[j][k];
-			matriz[j][k] = temp;
-		}
+	private void swap(int row1, int row2){
+		double[] temp = matriz[row1];
+		matriz[row1] = matriz[row2];
+		matriz[row2] = temp;
 	}
 	
-	
-	public void inversa() throws Exception{
+	public MatrizMath inversa() throws Exception{
 		if (filas != columnas) 
-			throw new Exception("No se puede calcular la inversa. La matriz debe ser cuadrada");
+			throw new Exception("No se puede calcular la inversa. La matriz no es cuadrada");
 		
-		// QUIQUE: Todo esto hay que meterlo en la clase MatrizExtendida (constructor con MatrizMath, método swap, subirPivot, etc.)
-		// Matriz extendida (A | I)
+		// TODO: Chequear por determinante
+		
 		MatrizMath resultado = new MatrizMath(filas, columnas * 2);
 		
-		// Lleno la matriz extendida
+		// Armo la matriz extendida (A | I)
 		for (int i = 0; i < filas; i++){
-			for (int j = 0; j < columnas * 2; j++){
-				if (j < columnas)
-					resultado.matriz[i][j] = this.matriz[i][j];
-				else if (j % columnas == i)
-					resultado.matriz[i][j] = 1;
+			for (int j = 0; j < columnas; j++){
+				resultado.matriz[i][j] = this.matriz[i][j];
 			}
 		}
+		for (int i = 0; i < filas; i++){
+			resultado.matriz[i][filas + i] = 1; 
+		}
 		
-		// Eliminación bajo la diagonal principal
-		// Para cada columna:
-		for (int i = 0; i < columnas; i++){
+		// Pivoteo para cada columna
+		for (int p = 0; p < columnas; p++){
 			// Busco el pivot
-			int p_idx = i;
-			double p_val = resultado.matriz[i][i];
+			int p_idx = p;
+			double p_val = Math.abs(resultado.matriz[p][p]);
 			
-			// Busco el máximo y su posición
-			for (int j = i + 1; j < resultado.filas; j++) {
-				double val = resultado.matriz[j][i];
-				if (Math.abs(val) > p_val){
+			for (int j = p + 1; j < resultado.filas; j++) {
+				double val = Math.abs(resultado.matriz[j][p]);
+				if (val > p_val){
 					p_idx = j; 
 					p_val = val;
 				}
-			}			
-			if (p_val == 0) {
-				throw new Exception("No hay solución porque la matriz es singular");
 			}
-			if (p_idx != i) resultado.swap(p_idx, i);
-			
-			// Eliminación para cada fila bajo la diagonal principal
-			for (int j = i + 1; j < resultado.filas; j++){ 
-				double d = resultado.matriz[j][i] / resultado.matriz[i][i];
-				for (int k = i; k < resultado.columnas; k++){
-					resultado.matriz[j][k] -= d * resultado.matriz[i][k];
+			if (p_val <= EPSILON) {  
+				throw new Exception("No hay solución porque la matriz es singular o está muy cercana a serlo");
+			}
+			resultado.swap(p_idx, p);
+			resultado.pivot(p, p);
+		}
+		
+		MatrizMath inversa = new MatrizMath(filas, columnas);
+		for (int i = 0; i < filas; i++){
+			for (int j = 0; j < columnas; j++){
+				inversa.matriz[i][j] = resultado.matriz[i][j + columnas];
+			}
+		}
+		return inversa;
+	}
+	
+	// Eliminación de Gauss-Jordan pivoteando en (p, q)
+	private void pivot(int p, int q){
+		for (int i = 0; i < filas; i++){
+			double d = matriz[i][q] / matriz[p][q];
+			if (i != p){
+				for (int j = q; j < columnas; j++){ // Hago 0 desde la columna del pivot en adelante, porque lo anterior ya es 0
+					matriz[i][j] -= d * matriz[p][j]; // Fi = Fi - d*Fp
 				}
 			}
 		}
-		
-		// Eliminación sobre la diagonal principal
-		// Para cada columna:
-		for (int i = columnas - 1; i > 0; i--){
-			for (int j = i - 1; j >= 0; j--){ 
-				double d = resultado.matriz[j][i] / resultado.matriz[i][i];
-				for (int k = i; k < resultado.columnas; k++){
-					resultado.matriz[j][k] -= d * resultado.matriz[i][k];
-				}
-			}
-		}
-		
-		// Divido para hacerla identidad
-		for (int i = 0; i < filas; i++)
-	    {
-	        double d = resultado.matriz[i][i];
-	        for (int j = 0; j < resultado.columnas; j++)
-	        	resultado.matriz[i][j] = resultado.matriz[i][j] / d; 
-	    }
-		
-		System.out.println(resultado);
+		double d = matriz[p][q];
+		for (int j = q; j < columnas; j++)
+            matriz[p][j] /= d;
 	}
 }
