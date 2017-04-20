@@ -15,7 +15,11 @@ public class MatrizMath {
 		try (Scanner scanner = new Scanner(new File(path));){
 			String[] dimensiones = scanner.nextLine().split(" ");
 			this.filas = Integer.parseInt(dimensiones[0]);
-			this.columnas = Integer.parseInt(dimensiones[1]);
+			if (dimensiones.length > 1)
+				this.columnas = Integer.parseInt(dimensiones[1]);
+			else 
+				this.columnas = this.filas; // Es cuadrada
+			
 			this.matriz = new double[filas][columnas];
 			
 			int i, j;
@@ -120,5 +124,85 @@ public class MatrizMath {
 			}
 		}
 		return res;
+	}
+	
+	// Intercambia dos filas
+	private void swap(int i, int j){
+		for (int k = 0; k < columnas; k++)
+		{
+			double temp = matriz[i][k];
+			matriz[i][k] = matriz[j][k];
+			matriz[j][k] = temp;
+		}
+	}
+	
+	
+	public void inversa() throws Exception{
+		if (filas != columnas) 
+			throw new Exception("No se puede calcular la inversa. La matriz debe ser cuadrada");
+		
+		// QUIQUE: Todo esto hay que meterlo en la clase MatrizExtendida (constructor con MatrizMath, método swap, subirPivot, etc.)
+		// Matriz extendida (A | I)
+		MatrizMath resultado = new MatrizMath(filas, columnas * 2);
+		
+		// Lleno la matriz extendida
+		for (int i = 0; i < filas; i++){
+			for (int j = 0; j < columnas * 2; j++){
+				if (j < columnas)
+					resultado.matriz[i][j] = this.matriz[i][j];
+				else if (j % columnas == i)
+					resultado.matriz[i][j] = 1;
+			}
+		}
+		
+		// Eliminación bajo la diagonal principal
+		// Para cada columna:
+		for (int i = 0; i < columnas; i++){
+			// Busco el pivot
+			int p_idx = i;
+			double p_val = resultado.matriz[i][i];
+			
+			// Busco el máximo y su posición
+			for (int j = i + 1; j < resultado.filas; j++) {
+				double val = resultado.matriz[j][i];
+				if (Math.abs(val) > p_val){
+					p_idx = j; 
+					p_val = val;
+				}
+			}			
+			if (p_val == 0) {
+				throw new Exception("No hay solución porque la matriz es singular");
+			}
+			if (p_idx != i) resultado.swap(p_idx, i);
+			
+			// Eliminación para cada fila bajo la diagonal principal
+			for (int j = i + 1; j < resultado.filas; j++){ 
+				double d = resultado.matriz[j][i] / resultado.matriz[i][i];
+				for (int k = i; k < resultado.columnas; k++){
+					resultado.matriz[j][k] -= d * resultado.matriz[i][k];
+				}
+			}
+		}
+		
+		// Eliminación sobre la diagonal principal
+		// Para cada columna:
+		for (int i = columnas - 1; i > 0; i--){
+			for (int j = i - 1; j >= 0; j--){ 
+				double d = resultado.matriz[j][i] / resultado.matriz[i][i];
+				for (int k = i; k < resultado.columnas; k++){
+					resultado.matriz[j][k] -= d * resultado.matriz[i][k];
+				}
+			}
+		}
+		
+		// Divido para hacerla identidad
+		for (int i = 0; i < filas; i++)
+	    {
+	        double d = resultado.matriz[i][i];
+	        for (int j = 0; j < resultado.columnas; j++)
+	        	resultado.matriz[i][j] = resultado.matriz[i][j] / d; 
+	    }
+		
+		System.out.println(resultado);
 	}
 }

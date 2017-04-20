@@ -21,19 +21,29 @@ public class Main {
 //		VectorMath v4 = new VectorMath(3, new double []{3, 2, 1});
 //		System.out.println(v3.productoVectorial(v4));
 		
-		String pathMatriz = "archivos_in/myMath.in";
-		String pathMatriz2 = "archivos_in/myMath2.in";
-		MatrizMath m1 = new MatrizMath(pathMatriz);
-		MatrizMath m2 = new MatrizMath(pathMatriz);
-		MatrizMath m3 = new MatrizMath(pathMatriz2);
+//		String pathMatriz = "archivos_in/myMath.in";
+//		String pathMatriz2 = "archivos_in/myMath2.in";
+		String pathMatrizCuadrada = "archivos_in/myMathCuadrada.in";
+//		MatrizMath m1 = new MatrizMath(pathMatriz);
+//		MatrizMath m2 = new MatrizMath(pathMatriz);
+//		MatrizMath m3 = new MatrizMath(pathMatriz2);
+//		
+//		System.out.println(new MatrizMath(pathMatriz));
+//		System.out.println(m1.suma(m2));
+//		System.out.println(m1.resta(m2));
+//		System.out.println(m1.producto(m3));
+//		
+//		System.out.println(m1.producto(new VectorMath(2, new double []{3, 2})));
+//		System.out.println(m1.producto((float)1.5));
 		
-		System.out.println(new MatrizMath(pathMatriz));
-		System.out.println(m1.suma(m2));
-		System.out.println(m1.resta(m2));
-		System.out.println(m1.producto(m3));
-		
-		System.out.println(m1.producto(new VectorMath(2, new double []{3, 2})));
-		System.out.println(m1.producto((float)1.5));
+		MatrizMath mInvertible = new MatrizMath(pathMatrizCuadrada);
+		try {
+			System.out.println(mInvertible);
+			mInvertible.inversa();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }
