@@ -9,6 +9,14 @@ public class SEL {
 		this.b = b;
 	}
 	
+	public SEL(String path){
+		this.matriz = new MatrizMath(path);
+		this.b = new VectorMath(path, this.matriz.getDimension());
+		System.out.println(this.matriz);
+		System.out.println(this.b);
+		System.out.println();
+	}
+	
 	public VectorMath resolver(){
 		VectorMath resultado = null;
 		try {

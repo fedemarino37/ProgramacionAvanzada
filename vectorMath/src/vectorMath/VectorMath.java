@@ -1,9 +1,13 @@
 package vectorMath;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.stream.Stream;
 import java.lang.Math;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 
 public class VectorMath {
@@ -19,15 +23,22 @@ public class VectorMath {
 		this.dimension = dimension;
 		this.coordenadas = coordenadas;
 	}
-
-	public VectorMath(String path) {
+	
+	public VectorMath(String path){
+		this(path, 0);
+	}
+	
+	// leerDesde: Nro de línea (desde 1) a partir de la cual leer el archivo
+	public VectorMath(String path, int leerDesde) {
 		try (Scanner scanner = new Scanner(new File(path));){
 			dimension = Integer.parseInt(scanner.nextLine());
 			coordenadas = new double[dimension];
 			
-			int i = 0;
-			while (scanner.hasNextLine()){				 
-				coordenadas[i++] = Double.parseDouble(scanner.nextLine());
+			int i = 0, nroLinea = 0;
+			while (scanner.hasNextLine()){
+				String linea = scanner.nextLine();
+				if (nroLinea++ >= leerDesde)
+					coordenadas[i++] = Double.parseDouble(linea);
 			}
 		}
 		catch(FileNotFoundException e){

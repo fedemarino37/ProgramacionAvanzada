@@ -37,9 +37,7 @@ public class Main {
 //		System.out.println(m1.producto(new VectorMath(2, new double []{3, 2})));
 //		System.out.println(m1.producto((float)1.5));
 		
-		MatrizMath mSEL = new MatrizMath(pathMatrizSEL);
-		VectorMath vSEL = new VectorMath(pathVectorSEL);
-		SEL sel = new SEL(mSEL, vSEL);
+		SEL sel = new SEL("archivos_in/SEL.in");
 		System.out.println(sel.resolver());
 	}
 

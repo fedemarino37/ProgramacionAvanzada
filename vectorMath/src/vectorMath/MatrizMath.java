@@ -24,7 +24,7 @@ public class MatrizMath {
 			this.matriz = new double[filas][columnas];
 			
 			int i, j;
-			while (scanner.hasNextLine()){
+			for (int k = 0; k < filas * columnas && scanner.hasNextLine(); k++){
 				String[] componentes = scanner.nextLine().split(" ");
 				i = Integer.parseInt(componentes[0]);
 				j = Integer.parseInt(componentes[1]);
@@ -55,6 +55,10 @@ public class MatrizMath {
 			resultado += Arrays.toString(matriz[i]) + "\n";
 		}
 		return resultado;
+	}
+	
+	public int getDimension(){
+		return this.filas * this.columnas;
 	}
 	
 	public MatrizMath suma(MatrizMath m2) throws DistDimException{
