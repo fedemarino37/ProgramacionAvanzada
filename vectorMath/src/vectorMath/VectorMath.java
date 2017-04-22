@@ -28,7 +28,6 @@ public class VectorMath {
 		this(path, 0);
 	}
 	
-	// leerDesde: Nro de línea (desde 1) a partir de la cual leer el archivo
 	public VectorMath(String path, int leerDesde) {
 		try (Scanner scanner = new Scanner(new File(path));){
 			dimension = Integer.parseInt(scanner.nextLine());

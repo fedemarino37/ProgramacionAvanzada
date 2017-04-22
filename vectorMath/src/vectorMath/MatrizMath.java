@@ -181,6 +181,14 @@ public class MatrizMath {
 				inversa.matriz[i][j] = resultado.matriz[i][j + columnas];
 			}
 		}
+		
+		// Chequeo que el error esté dentro del rango definido
+		MatrizMath identidadPrima = this.producto(inversa); 
+		for (int i = 0; i < identidadPrima.filas; i++){
+			if (Math.abs(identidadPrima.matriz[i][i] - 1) > EPSILON)
+				throw new Exception("La solución encontrada tiene un error mayor a " + EPSILON);
+		}
+		
 		return inversa;
 	}
 	
