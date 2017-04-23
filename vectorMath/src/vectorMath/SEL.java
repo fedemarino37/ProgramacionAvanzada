@@ -14,6 +14,14 @@ public class SEL {
 		this.b = new VectorMath(path, this.matriz.getDimension());
 	}
 	
+	public MatrizMath getMatriz(){
+		return this.matriz;
+	}
+	
+	public VectorMath getB(){
+		return this.b;
+	}
+	
 	public VectorMath resolver(){
 		VectorMath resultado = null;
 		try {

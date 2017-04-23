@@ -168,9 +168,9 @@ public class MatrizMath {
 					p_val = val;
 				}
 			}
-			if (p_val <= EPSILON) {  
-				throw new Exception("No hay solución porque la matriz es singular o está muy cercana a serlo");
-			}
+			//if (p_val <= EPSILON) {  
+				//throw new Exception("No hay solución porque la matriz es singular o está muy cercana a serlo");
+			//}
 			resultado.swap(p_idx, p);
 			resultado.pivot(p, p);
 		}

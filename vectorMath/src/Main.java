@@ -37,7 +37,15 @@ public class Main {
 //		System.out.println(m1.producto(new VectorMath(2, new double []{3, 2})));
 //		System.out.println(m1.producto((float)1.5));
 		
-		SEL sel = new SEL("archivos_in/SEL.in");
+		SEL sel = new SEL("archivos_in/03_4x4_Normal.in");
+		System.out.println(sel.getMatriz());
+		System.out.println(sel.getB());
+		try {
+			System.out.println(sel.getMatriz().inversa());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println(sel.resolver());
 	}
 
