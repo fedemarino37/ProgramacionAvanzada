@@ -3,6 +3,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 import java.util.stream.Stream;
 import java.lang.Math;
@@ -45,6 +46,15 @@ public class VectorMath {
 		}
 	}
 
+	public static VectorMath getAleatorio(int n){
+		VectorMath v = new VectorMath(n);
+		Random r = new Random();
+		for (int i = 0; i < n; i++){
+			v.coordenadas[i] = r.nextInt((i + 1) * 2) + 1;
+		}
+		return v;
+	}
+	
 	@Override
 	public String toString() {
 		return "VectorMath [dimension=" + dimension + ", coordenadas=" + Arrays.toString(coordenadas) + "]";

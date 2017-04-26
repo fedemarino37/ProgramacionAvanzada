@@ -3,6 +3,7 @@ package vectorMath;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
+import java.util.Random;
 import java.util.Scanner;
 
 public class MatrizMath {
@@ -59,6 +60,19 @@ public class MatrizMath {
 	
 	public int getDimension(){
 		return this.filas * this.columnas;
+	}
+	
+	public static MatrizMath getAleatoria(int n){
+		MatrizMath m = new MatrizMath(n, n);
+		Random r = new Random();
+		for (int i = 0; i < n; i++){
+			m.matriz[i][0] = i;
+			m.matriz[i][1] = 1;
+			for (int j = 2; j < n; j++){
+				m.matriz[i][j] = r.nextInt(j * 2);
+			}
+		}
+		return m;
 	}
 	
 	public MatrizMath suma(MatrizMath m2) throws DistDimException{
@@ -183,11 +197,11 @@ public class MatrizMath {
 		}
 		
 		// Chequeo que el error esté dentro del rango definido
-		MatrizMath identidadPrima = this.producto(inversa); 
-		for (int i = 0; i < identidadPrima.filas; i++){
-			if (Math.abs(identidadPrima.matriz[i][i] - 1) > EPSILON)
-				throw new Exception("La solución encontrada tiene un error mayor a " + EPSILON);
-		}
+//		MatrizMath identidadPrima = this.producto(inversa); 
+//		for (int i = 0; i < identidadPrima.filas; i++){
+//			if (Math.abs(identidadPrima.matriz[i][i] - 1) > EPSILON)
+//				throw new Exception("La solución encontrada tiene un error mayor a " + EPSILON);
+//		}
 		
 		return inversa;
 	}

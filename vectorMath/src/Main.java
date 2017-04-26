@@ -1,3 +1,6 @@
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import vectorMath.*;
 
 public class Main {
@@ -37,16 +40,37 @@ public class Main {
 //		System.out.println(m1.producto(new VectorMath(2, new double []{3, 2})));
 //		System.out.println(m1.producto((float)1.5));
 		
-		SEL sel = new SEL("archivos_in/03_4x4_Normal.in");
-		System.out.println(sel.getMatriz());
-		System.out.println(sel.getB());
+//		SEL sel = new SEL("archivos_in/03_4x4_Normal.in");
+//		System.out.println(sel.getMatriz());
+//		System.out.println(sel.getB());
+//		try {
+//			System.out.println(sel.getMatriz().inversa());
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		System.out.println(sel.resolver());
+		
+		int n = 1000;
+		MatrizMath a = MatrizMath.getAleatoria(n);
+		VectorMath b = VectorMath.getAleatorio(n);
 		try {
-			System.out.println(sel.getMatriz().inversa());
+			Calendar tIni = new GregorianCalendar();
+			MatrizMath inversa = a.inversa();
+			Calendar tFin = new GregorianCalendar();
+			long diff = tFin.getTimeInMillis() - tIni.getTimeInMillis();
+			System.out.println("Inversa: " + diff);
+			
+			tIni = new GregorianCalendar();
+			MatrizMath identidadPrima = a.producto(inversa);
+			tFin = new GregorianCalendar();
+			diff = tFin.getTimeInMillis() - tIni.getTimeInMillis();
+			System.out.println("Producto: " + diff);
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
-		System.out.println(sel.resolver());
+		}		
 	}
 
 }
