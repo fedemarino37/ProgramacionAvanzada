@@ -1,11 +1,12 @@
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.nio.file.Paths;
 
 import vectorMath.*;
 
 public class Main {
 
-	public static void main(String[] args) throws DistDimException {
+	public static void main(String[] args) throws Exception {
 //		String path = "archivos_in/myVector.in";
 //	
 //		VectorMath vector = new VectorMath(path);
@@ -24,53 +25,23 @@ public class Main {
 //		VectorMath v4 = new VectorMath(3, new double []{3, 2, 1});
 //		System.out.println(v3.productoVectorial(v4));
 		
-		String pathMatriz = "archivos_in/myMath.in";
-		String pathMatriz2 = "archivos_in/myMath2.in";
-		String pathMatrizSEL = "archivos_in/myMathSEL.in";
-		String pathVectorSEL = "archivos_in/myVectorSEL.in";
-//		MatrizMath m1 = new MatrizMath(pathMatriz);
-//		MatrizMath m2 = new MatrizMath(pathMatriz);
-//		MatrizMath m3 = new MatrizMath(pathMatriz2);
-//		
-//		System.out.println(new MatrizMath(pathMatriz));
-//		System.out.println(m1.suma(m2));
-//		System.out.println(m1.resta(m2));
-//		System.out.println(m1.producto(m3));
-//		
-//		System.out.println(m1.producto(new VectorMath(2, new double []{3, 2})));
-//		System.out.println(m1.producto((float)1.5));
+		String path = "archivos_in/03_4x4_Normal.in";
+		String fileName = Paths.get(path).getFileName().toString();
+		if (fileName.indexOf(".") > 0)
+			fileName = fileName.substring(0, fileName.lastIndexOf("."));
+		String pathSalida = "archivos_out/" + fileName + ".out";
 		
-//		SEL sel = new SEL("archivos_in/03_4x4_Normal.in");
-//		System.out.println(sel.getMatriz());
-//		System.out.println(sel.getB());
-//		try {
-//			System.out.println(sel.getMatriz().inversa());
-//		} catch (Exception e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		System.out.println(sel.resolver());
-		
-		int n = 1000;
-		MatrizMath a = MatrizMath.getAleatoria(n);
-		VectorMath b = VectorMath.getAleatorio(n);
-		try {
-			Calendar tIni = new GregorianCalendar();
-			MatrizMath inversa = a.inversa();
-			Calendar tFin = new GregorianCalendar();
-			long diff = tFin.getTimeInMillis() - tIni.getTimeInMillis();
-			System.out.println("Inversa: " + diff);
-			
-			tIni = new GregorianCalendar();
-			MatrizMath identidadPrima = a.producto(inversa);
-			tFin = new GregorianCalendar();
-			diff = tFin.getTimeInMillis() - tIni.getTimeInMillis();
-			System.out.println("Producto: " + diff);
-			
+		try (PrintWriter printWriter = new PrintWriter(new FileWriter(pathSalida, false))){
+			SEL sel = new SEL(path);
+			VectorMath resultado = sel.resolver();
+			if (resultado != null){
+				printWriter.println(resultado.toStringVertical());
+				printWriter.println();
+				printWriter.println(sel.calcularErrorSolucion());
+			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}		
+			e.printStackTrace(); 
+		}
 	}
 
 }

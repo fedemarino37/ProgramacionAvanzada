@@ -8,7 +8,6 @@ import java.util.Scanner;
 
 public class MatrizMath {
 
-	private static final double EPSILON = 1e-8;
 	private double [][]matriz;
 	private int columnas;
 	private int filas;
@@ -56,6 +55,18 @@ public class MatrizMath {
 			resultado += Arrays.toString(matriz[i]) + "\n";
 		}
 		return resultado;
+	}
+	
+	public int getFilas(){
+		return this.filas;
+	}
+	
+	public int getColumnas(){
+		return this.columnas;
+	}
+	
+	public double[][] getMatriz(){
+		return this.matriz;
 	}
 	
 	public int getDimension(){
@@ -155,8 +166,6 @@ public class MatrizMath {
 		if (filas != columnas) 
 			throw new Exception("No se puede calcular la inversa. La matriz no es cuadrada");
 		
-		// TODO: Chequear por determinante
-		
 		MatrizMath resultado = new MatrizMath(filas, columnas * 2);
 		
 		// Armo la matriz extendida (A | I)
@@ -182,9 +191,6 @@ public class MatrizMath {
 					p_val = val;
 				}
 			}
-			//if (p_val <= EPSILON) {  
-				//throw new Exception("No hay solución porque la matriz es singular o está muy cercana a serlo");
-			//}
 			resultado.swap(p_idx, p);
 			resultado.pivot(p, p);
 		}
@@ -195,13 +201,6 @@ public class MatrizMath {
 				inversa.matriz[i][j] = resultado.matriz[i][j + columnas];
 			}
 		}
-		
-		// Chequeo que el error esté dentro del rango definido
-//		MatrizMath identidadPrima = this.producto(inversa); 
-//		for (int i = 0; i < identidadPrima.filas; i++){
-//			if (Math.abs(identidadPrima.matriz[i][i] - 1) > EPSILON)
-//				throw new Exception("La solución encontrada tiene un error mayor a " + EPSILON);
-//		}
 		
 		return inversa;
 	}

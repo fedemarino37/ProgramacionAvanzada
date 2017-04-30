@@ -1,14 +1,10 @@
 package vectorMath;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-import java.util.stream.Stream;
 import java.lang.Math;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 
 
 public class VectorMath {
@@ -57,7 +53,15 @@ public class VectorMath {
 	
 	@Override
 	public String toString() {
-		return "VectorMath [dimension=" + dimension + ", coordenadas=" + Arrays.toString(coordenadas) + "]";
+		return Arrays.toString(coordenadas);
+	}
+	
+	public String toStringVertical() {
+		String resultado = this.dimension + "";
+		for (double coord : this.coordenadas){
+			resultado += "\r\n" + coord;
+		}
+		return resultado;
 	}
 	
 	public VectorMath suma(VectorMath v2) throws DistDimException{
@@ -103,7 +107,6 @@ public class VectorMath {
 	
 	@Override
 	public Object clone(){
-		// TODO Auto-generated method stub
 		return new VectorMath(dimension, coordenadas);
 	}
 
