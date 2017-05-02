@@ -25,7 +25,7 @@ public class Main {
 //		VectorMath v4 = new VectorMath(3, new double []{3, 2, 1});
 //		System.out.println(v3.productoVectorial(v4));
 		
-		String path = "archivos_in/03_4x4_Normal.in";
+		String path = "archivos_in/04_caso2x2cCasiLDsimple.in";
 		String fileName = Paths.get(path).getFileName().toString();
 		if (fileName.indexOf(".") > 0)
 			fileName = fileName.substring(0, fileName.lastIndexOf("."));
