@@ -11,5 +11,4 @@ public class Main {
 		System.out.println("Extraigo mínimo: " + heap.extractMin());
 		System.out.println("Post-extracción: " + heap);
 	}
-
 }
