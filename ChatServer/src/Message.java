@@ -48,7 +48,9 @@ public class Message implements Serializable {
 	}
 
 	@Override
-    public String toString(){
-        return "{type='"+type+"', sender='"+sender+"', content='"+content+"', recipient='"+recipient+"'}";
-    }
+	public String toString() {
+		return "Message [sender=" + sender + ", content=" + content + ", recipient=" + recipient + ", type=" + type
+				+ ", success=" + success + "]";
+	}
+	
 }

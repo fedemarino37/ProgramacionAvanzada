@@ -103,6 +103,10 @@ public class MessengerServer extends Thread {
 		ventana.setVisible(true);
 	}
 
+	protected static void logMessage(Message msg) {
+		log.append(msg.toString());
+	}
+	
 	private static void close() throws IOException {
 		server.stop();
 		for (ServerThread cliente : clients.values()) {
