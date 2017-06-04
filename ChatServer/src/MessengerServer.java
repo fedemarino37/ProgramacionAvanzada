@@ -103,8 +103,12 @@ public class MessengerServer extends Thread {
 		ventana.setVisible(true);
 	}
 
-	protected static void logMessage(Message msg) {
-		log.append(msg.toString());
+	protected synchronized static void logReceivedMessage(Message msg) {
+		log.append("Recibido: " + msg.toString() + "\n");
+	}
+	
+	protected synchronized static void logSentMessage(Message msg) {
+		log.append("Enviado: " + msg.toString() + "\n");
 	}
 	
 	private static void close() throws IOException {
@@ -131,39 +135,30 @@ public class MessengerServer extends Thread {
 	
 	protected static synchronized void addClient(String username, ServerThread serverThread) {    
     	clients.put(username, serverThread);
+    	log.append(username + " se unió.\n");
     }
 	
+	protected static synchronized void deleteClient(String username) {
+		clients.remove(username);
+		log.append(username + " se fue.\n");
+	}
+	
 	protected static synchronized String getOnlineUsers() { 
-		String result = "";
-		for (String username : clients.keySet()) {
-			result += username + ",";
-		}
-		result.substring(0, result.length());
-		return result;
+		return String.join(",", clients.keySet());
 	}
 	
 	protected static synchronized boolean exists (String username) {
 		return clients.containsKey(username);
 	}
 	
-	protected static synchronized void userOnline(String username) throws IOException {
-		for (ServerThread client : clients.values()) {
-			client.send(new Message(MessageType.LOGIN, username));
-		}
-	}
-	
-	protected static synchronized void enviarDifusion(Message msg) throws IOException {
-		if (msg.getType() != MessageType.DIFUSION) return;
+	protected static synchronized void difundir(Message msg) throws IOException {
 		for (String clientName : clients.keySet()) {
-			if (clientName.equals(msg.getSender())) continue;
 			ServerThread client = clients.get(clientName);
 			client.send(msg);
 		}
 	}
 	
-	protected static synchronized void sendMsg(Message msg) throws IOException {
-		if (msg.getType() == MessageType.MENSAJE) {
-			clients.get(msg.getRecipient()).send(msg);
-		}
+	protected static synchronized void enviar(Message msg) throws IOException {
+		clients.get(msg.getRecipient()).send(msg);
 	}
 }

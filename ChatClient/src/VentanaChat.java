@@ -30,41 +30,14 @@ public class VentanaChat extends JFrame {
 	private JButton btnEnviar;
 	private JTextArea textArea;
 	private String usuarioDestinoChat;
+	private MessengerClient cliente;
 
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					VentanaChat frame = new VentanaChat("pepe", "chat");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the frame.
-	 * 
-	 * Modo:
-	 * 		"Sala":	Sala de Chat
-	 * 		"Chat": SesiÃ³n privada
-	 *  
-	 * Usuario Destino: Usuario en sesiÃ³n privada
-	 */
-	public VentanaChat(String usuarioDestinoChat, String modoChat) {
+	public VentanaChat(MessengerClient cliente, String usuarioDestinoChat) {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
+		this.cliente = cliente;
 		this.usuarioDestinoChat = usuarioDestinoChat;
-		
-		if(modoChat.equals("Sala"))
-			setTitle("Sala de Chat");
-		else
-			setTitle(usuarioDestinoChat);
-				
+		setTitle(usuarioDestinoChat);
 		setResizable(false);
 		
 		addWindowListener(new WindowAdapter() {
@@ -120,17 +93,34 @@ public class VentanaChat extends JFrame {
 	
 	public void escribeEnTextArea() {
 		textArea.setCaretPosition(textArea.getText().length());
-		textArea.append(textField.getText() + "\n");
+		String mensaje = textField.getText();
+		try {
+			cliente.enviarMensaje(mensaje, this.usuarioDestinoChat);
+			// Si mandé difusión, me va a llegar a mi también
+			if (this.usuarioDestinoChat != "SALA") 
+				recibirMensaje("YO", mensaje);
+			textField.setText("");
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(this, "Hubo un problema al enviar el mensaje. Intente nuevamente");
+		}
 	}
 	
 	private void mostrarVentanaConfirmacion() {
-		int res = JOptionPane.showConfirmDialog(this, "Desea salir de la sesiÃ³n de chat", "Confirmar cerrar", JOptionPane.YES_NO_OPTION);
+		int res = JOptionPane.showConfirmDialog(this, "Desea salir de la sesión de chat?", "Confirmar cerrar", JOptionPane.YES_NO_OPTION);
 		if(res == JOptionPane.YES_OPTION)
 			dispose();
+	}
+	
+	public String getUsuarioDestino() {
+		return this.usuarioDestinoChat;
 	}
 	
 	private void hacerFocoTextField(JTextField textField) {
 		textField.requestFocus();
 		textField.selectAll();
+	}
+	
+	protected void recibirMensaje(String enviadoPor, String texto) {
+		textArea.append(enviadoPor + " > " + texto + "\n");
 	}
 }
