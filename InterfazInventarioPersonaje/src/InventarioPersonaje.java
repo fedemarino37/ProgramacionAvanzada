@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.JInternalFrame;
 import javax.swing.JLabel;
@@ -10,6 +11,9 @@ import javax.swing.JLabel;
 import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
+import java.awt.event.MouseMotionAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseAdapter;
 
 public class InventarioPersonaje extends JFrame {
 
@@ -43,88 +47,59 @@ public class InventarioPersonaje extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		ImageIcon espada = new ImageIcon("./Imagenes/Espada_super_poderosa.png");
+		ImageIcon casco = new ImageIcon("./Imagenes/casco.png");
+		ImageIcon botas = new ImageIcon("./Imagenes/botas.png");
+		ImageIcon escudo = new ImageIcon("./Imagenes/escudo.png");
+		ImageIcon armadura = new ImageIcon("./Imagenes/escudo.png");
 		
-		JLabel Item1 = new JLabel(new ImageIcon("./src/Espada_super_poderosa.png"));
 		
-//		JPanel Item1 = new JPanel();
-		Item1.setBounds(10, 34, 36, 36);
-		
+		JLabel Item1 = new JLabel(espada);
+		Item1.addMouseListener(new MouseAdapter() {
+			JTextField descripcion = new JTextField();
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				descripcion.setVisible(false);
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				descripcion.setText("Texto de prueba");
+				System.out.println("123");
+				descripcion.setBounds(Item1.getX(), Item1.getY(), 10, 30);
+				contentPane.add(descripcion);
+				descripcion.setVisible(true);
+			}
+		});
+		Item1.addMouseMotionListener(new MouseMotionAdapter() {
+			JTextField descripcion = new JTextField();
+			@Override
+			public void mouseMoved(MouseEvent arg0) {
+				
+				descripcion.setText("Texto de prueba");
+				System.out.println("123");
+				descripcion.setBounds(Item1.getX(), Item1.getY(), 10, 30);
+				contentPane.add(descripcion);
+				descripcion.setVisible(true);
+				
+			}
+		});
+		Item1.setBounds(10, 34, espada.getIconWidth(), espada.getIconHeight());
 		contentPane.add(Item1);
 		
-		JPanel panel_1 = new JPanel();
-		panel_1.setBounds(10, 81, 36, 36);
-		contentPane.add(panel_1);
+		JLabel Item2 = new JLabel(new ImageIcon("./Imagenes/armadura.png"));
+		Item2.setBounds(10, 81, armadura.getIconWidth(), armadura.getIconHeight());
+		contentPane.add(Item2);
 		
-		JPanel panel_2 = new JPanel();
-		panel_2.setBounds(10, 128, 36, 36);
-		contentPane.add(panel_2);
+		JLabel Item3 = new JLabel(new ImageIcon("./Imagenes/botas.png"));
+		Item3.setBounds(66, 34, botas.getIconWidth(), botas.getIconHeight());
+		contentPane.add(Item3);
 		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(10, 175, 36, 36);
-		contentPane.add(panel_3);
+		JLabel Item4= new JLabel(new ImageIcon("./Imagenes/casco.png"));
+		Item4.setBounds(122, 34, casco.getIconWidth(), casco.getIconHeight());
+		contentPane.add(Item4);
 		
-		JPanel panel_4 = new JPanel();
-		panel_4.setBounds(10, 222, 36, 36);
-		contentPane.add(panel_4);
-		
-		JPanel panel_5 = new JPanel();
-		panel_5.setBounds(66, 34, 36, 36);
-		contentPane.add(panel_5);
-		
-		JPanel panel_6 = new JPanel();
-		panel_6.setBounds(66, 81, 36, 36);
-		contentPane.add(panel_6);
-		
-		JPanel panel_7 = new JPanel();
-		panel_7.setBounds(66, 128, 36, 36);
-		contentPane.add(panel_7);
-		
-		JPanel panel_8 = new JPanel();
-		panel_8.setBounds(66, 175, 36, 36);
-		contentPane.add(panel_8);
-		
-		JPanel panel_9 = new JPanel();
-		panel_9.setBounds(66, 222, 36, 36);
-		contentPane.add(panel_9);
-		
-		JPanel panel_10 = new JPanel();
-		panel_10.setBounds(122, 34, 36, 36);
-		contentPane.add(panel_10);
-		
-		JPanel panel_11 = new JPanel();
-		panel_11.setBounds(122, 81, 36, 36);
-		contentPane.add(panel_11);
-		
-		JPanel panel_12 = new JPanel();
-		panel_12.setBounds(122, 128, 36, 36);
-		contentPane.add(panel_12);
-		
-		JPanel panel_13 = new JPanel();
-		panel_13.setBounds(122, 175, 36, 36);
-		contentPane.add(panel_13);
-		
-		JPanel panel_14 = new JPanel();
-		panel_14.setBounds(122, 222, 36, 36);
-		contentPane.add(panel_14);
-		
-		JPanel panel_15 = new JPanel();
-		panel_15.setBounds(178, 34, 36, 36);
-		contentPane.add(panel_15);
-		
-		JPanel panel_16 = new JPanel();
-		panel_16.setBounds(178, 81, 36, 36);
-		contentPane.add(panel_16);
-		
-		JPanel panel_17 = new JPanel();
-		panel_17.setBounds(178, 128, 36, 36);
-		contentPane.add(panel_17);
-		
-		JPanel panel_18 = new JPanel();
-		panel_18.setBounds(178, 175, 36, 36);
-		contentPane.add(panel_18);
-		
-		JPanel panel_19 = new JPanel();
-		panel_19.setBounds(178, 222, 36, 36);
-		contentPane.add(panel_19);
+		JLabel Item5 = new JLabel(new ImageIcon("./Imagenes/escudo.png"));
+		Item5.setBounds(178, 34, escudo.getIconWidth(), escudo.getIconHeight());
+		contentPane.add(Item5);
 	}
 }
