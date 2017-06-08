@@ -63,26 +63,13 @@ public class InventarioPersonaje extends JFrame {
 			}
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				descripcion.setText("Texto de prueba");
-				System.out.println("123");
+				descripcion.setText("Texto de prueba");				
 				descripcion.setBounds(Item1.getX(), Item1.getY(), 10, 30);
 				contentPane.add(descripcion);
 				descripcion.setVisible(true);
 			}
 		});
-		Item1.addMouseMotionListener(new MouseMotionAdapter() {
-			JTextField descripcion = new JTextField();
-			@Override
-			public void mouseMoved(MouseEvent arg0) {
-				
-				descripcion.setText("Texto de prueba");
-				System.out.println("123");
-				descripcion.setBounds(Item1.getX(), Item1.getY(), 10, 30);
-				contentPane.add(descripcion);
-				descripcion.setVisible(true);
-				
-			}
-		});
+		
 		Item1.setBounds(10, 34, espada.getIconWidth(), espada.getIconHeight());
 		contentPane.add(Item1);
 		
