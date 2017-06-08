@@ -4,6 +4,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,16 +17,19 @@ import javax.swing.JTextArea;
 
 public class MessengerServer extends Thread {
 
+	private static ArchivoDePropiedades properties;
 	private static Map<String, ServerThread> clients = new HashMap<String, ServerThread>();
 	private static Thread server;
 	private static ServerSocket serverSocket;
-	protected static final int PUERTO = 9999;
+	protected static final int PUERTO = 8080;
 
 	private final static int ANCHO = 700;
 	private final static int ALTO = 640;
 	private final static int ALTO_LOG = 520;
 	private final static int ANCHO_LOG = ANCHO - 25;
 
+	private static JButton botonIniciar;
+	private static JButton botonDetener;
 	public static JTextArea log;
 
 	public static void main(String[] args) {
@@ -52,16 +56,15 @@ public class MessengerServer extends Thread {
 		scroll.setBounds(10, 40, ANCHO_LOG, ALTO_LOG);
 		ventana.add(scroll);
 
-		final JButton botonIniciar = new JButton();
-		final JButton botonDetener = new JButton();
+		botonIniciar = new JButton();
+		botonDetener = new JButton();
 		botonIniciar.setText("Iniciar");
 		botonIniciar.setBounds(220, ALTO - 70, 100, 30);
 		botonIniciar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				server = new Thread(new MessengerServer());
 				server.start();
-				botonIniciar.setEnabled(false);
-				botonDetener.setEnabled(true);
+				actualizarBotones(true);
 			}
 		});
 
@@ -77,8 +80,6 @@ public class MessengerServer extends Thread {
 					log.append("Fallo al intentar detener el servidor." + System.lineSeparator());
 					e1.printStackTrace();
 				}
-				botonDetener.setEnabled(false);
-				botonIniciar.setEnabled(true);
 			}
 		});
 		botonDetener.setEnabled(false);
@@ -103,12 +104,17 @@ public class MessengerServer extends Thread {
 		ventana.setVisible(true);
 	}
 
+	private static void actualizarBotones(boolean corriendo) {
+		botonDetener.setEnabled(corriendo);
+		botonIniciar.setEnabled(!corriendo);
+	}
+	
 	protected synchronized static void logReceivedMessage(Message msg) {
-		log.append("Recibido: " + msg.toString() + "\n");
+		log.append("Recibido: " + msg.toString() + System.lineSeparator());
 	}
 	
 	protected synchronized static void logSentMessage(Message msg) {
-		log.append("Enviado: " + msg.toString() + "\n");
+		log.append("Enviado: " + msg.toString() + System.lineSeparator());
 	}
 	
 	private static void close() throws IOException {
@@ -116,31 +122,44 @@ public class MessengerServer extends Thread {
 		for (ServerThread cliente : clients.values()) {
 			cliente.close();
 		}
-		serverSocket.close();
+		if (serverSocket != null) serverSocket.close();
 	}
 	
 	public void run() {
 		try {
 			log.append("Iniciando el servidor..." + System.lineSeparator());
-			serverSocket = new ServerSocket(PUERTO);
-			log.append("Servidor esperando conexiones..." + System.lineSeparator());
+			properties = new ArchivoDePropiedades("config.properties");
+			properties.lectura();
+			serverSocket = new ServerSocket(properties.getPuerto());
+			log.append("Servidor esperando conexiones en puerto " + properties.getPuerto() + "..." + System.lineSeparator());
 			while (true) {
 				new ServerThread(serverSocket.accept()).start();
 			}
+		} catch (BindException be) {
+			log.append("Hay otro servidor corriendo en el puerto " + properties.getPuerto() + ". Modifique el archivo de configuración" + System.lineSeparator());
+		} catch (IllegalArgumentException ie) {
+			log.append("No se pudo conectar al puerto " + properties.getPuerto() + ". Modifique el archivo de configuración" + System.lineSeparator());
 		} catch (Exception e) {
-			log.append("Fallo la conexión." + System.lineSeparator());
+			log.append("Falló la conexión." + System.lineSeparator());
 			e.printStackTrace();
+		} finally {
+			actualizarBotones(false);
 		}
 	}
 	
 	protected static synchronized void addClient(String username, ServerThread serverThread) {    
     	clients.put(username, serverThread);
-    	log.append(username + " se unió.\n");
+    	log.append(username + " se unió." + System.lineSeparator());
     }
 	
 	protected static synchronized void deleteClient(String username) {
 		clients.remove(username);
-		log.append(username + " se fue.\n");
+		try {
+			difundir(new Message(MessageType.LOGOUT, getOnlineUsers()));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		log.append(username + " se fue." + System.lineSeparator());
 	}
 	
 	protected static synchronized String getOnlineUsers() { 

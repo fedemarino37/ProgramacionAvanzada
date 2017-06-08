@@ -58,7 +58,8 @@ public class ServerThread extends Thread {
 			}
         }
         catch(Exception e){
-        	MessengerServer.deleteClient(username);
+        	if (this.username != null)
+        		MessengerServer.deleteClient(username);
         } finally {
         	this.close();
         }

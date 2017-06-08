@@ -16,7 +16,8 @@ public class EscuchaMensajes extends Thread {
 			while (true) {
 				Message msg = (Message) in.readObject();
 				switch (msg.getType()) {
-				case LOGIN: // Alguien inició sesión
+				case LOGIN:
+				case LOGOUT:
 					cliente.setUsuariosEnLista(msg.getContent().split(","));
 					break;
 				case MENSAJE:
