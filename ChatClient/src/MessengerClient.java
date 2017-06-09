@@ -205,6 +205,12 @@ public class MessengerClient extends Thread {
 		mnAyuda.add(mntmConfigIpPuerto);
 		
 		JMenuItem mntmAcerca = new JMenuItem("Acerca");
+		mntmAcerca.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				abrirVentanaAyuda();
+			}
+		});
 		mnAyuda.add(mntmAcerca);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -231,6 +237,10 @@ public class MessengerClient extends Thread {
 		
 		actualizarVentana(false);
 		VC.setVisible(true);
+	}
+	
+	private void abrirVentanaAyuda() {
+		new VentanaAyuda(VC);
 	}
 	
 	private void abrirVentanaConfirmaSalir() {
