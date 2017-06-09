@@ -1,6 +1,8 @@
 import java.io.EOFException;
 import java.io.ObjectInputStream;
 
+import javax.swing.JOptionPane;
+
 public class EscuchaMensajes extends Thread {
 	private MessengerClient cliente;
 	private ObjectInputStream in;
@@ -31,6 +33,7 @@ public class EscuchaMensajes extends Thread {
 				}
 			}
 		} catch (EOFException e) {
+			cliente.mostrarDialog("El servidor se detuvo", "Servidor apagado", JOptionPane.INFORMATION_MESSAGE);
 			System.out.println("El servidor se detuvo");
 			e.printStackTrace();
 		} catch (Exception e) {

@@ -50,16 +50,22 @@ public class MessengerClient extends Thread {
 		MC.crearVentanaCliente();
 	}
 	
-	protected void cerrarTodo() {
+	protected synchronized void cerrarTodo() {
 		try {
+			for (VentanaChat ventanaChat : chatsAbiertos.values()) {
+				ventanaChat.dispose();
+			}
 			if (in != null) in.close();
 			if (out != null) out.close();
 			if (!mySocket.isClosed()) mySocket.close();
-			if (this.escuchaMensajes != null) this.escuchaMensajes.stop();
+			if (this.escuchaMensajes != null && this.escuchaMensajes.isAlive()) {
+				this.escuchaMensajes.stop();
+			}
 			this.escuchaMensajes = null;
-			actualizarVentana(false);
 		} catch (Exception e){
 			e.printStackTrace();
+		} finally {
+			actualizarVentana(false);
 		}
 	}
 	
@@ -83,7 +89,7 @@ public class MessengerClient extends Thread {
         		this.VC.setTitle("Chat. Logeado como: " + username);
         		setUsuariosEnLista(response.getContent().split(","));
         	} else {
-        		JOptionPane.showMessageDialog(VC, response.getContent());
+        		mostrarDialog(response.getContent(), "Error", JOptionPane.INFORMATION_MESSAGE);
         	}
         } while (this.username == null);
     	return true;
@@ -228,7 +234,7 @@ public class MessengerClient extends Thread {
 	}
 	
 	private void abrirVentanaConfirmaSalir() {
-		int opcion = JOptionPane.showConfirmDialog(VC, "Desea salir del Chat", "Confirmación", JOptionPane.YES_NO_OPTION);
+		int opcion = JOptionPane.showConfirmDialog(VC, "Desea salir del Chat?", "Confirmación", JOptionPane.YES_NO_OPTION);
 		if(opcion == JOptionPane.YES_OPTION) {
 			if(this.escuchaMensajes != null) {
 				cerrarTodo();
@@ -243,7 +249,7 @@ public class MessengerClient extends Thread {
 		try {
 			mySocket = new Socket(properties.getIP(), properties.getPuerto());			
 		} catch (ConnectException e) {
-			JOptionPane.showMessageDialog(VC, "Verifique el archivo de configuración", "Error al conectar", JOptionPane.ERROR_MESSAGE);
+			mostrarDialog("Verifique el archivo de configuración", "Error al conectar", JOptionPane.ERROR_MESSAGE);
 			return;
 		}
 		in = new ObjectInputStream(mySocket.getInputStream());
@@ -255,25 +261,31 @@ public class MessengerClient extends Thread {
         }
 	}
 	
+	protected synchronized void mostrarDialog(String texto, String titulo, int tipo) {
+		JOptionPane.showMessageDialog(VC, texto, titulo, tipo);
+	}
+	
 	public void setUsuariosEnLista(String str[]) {
-		if (str == null) {
-			lblUsuarios.setText("");
-			return;
-		}
 		DefaultListModel<String> modeloLista = new DefaultListModel<String>();
-		for(String item : str) {
-    		if (!item.equals(this.username))
-    			modeloLista.addElement(item);
-    	}
+		String txtUsuarios;
+		if (str == null) {
+			txtUsuarios = "";
+		} else {
+			for(String item : str) {
+	    		if (!item.equals(this.username))
+	    			modeloLista.addElement(item);
+	    	}
+			txtUsuarios = modeloLista.isEmpty() ? "No hay nadie conectado" : "Cantidad de Usuarios Conectados: " + modeloLista.getSize();
+		}
 		listUsuarios.setModel(modeloLista);
-		lblUsuarios.setText("Cantidad de Usuarios Conectados: " + modeloLista.getSize());
+		lblUsuarios.setText(txtUsuarios);
 	}
 	
 	private void seleccionarElementoLista() {
 		if(!listUsuarios.isSelectionEmpty())
 			getChatWindow(listUsuarios.getSelectedValue());
 		else
-			JOptionPane.showMessageDialog(VC, "Seleccione un elemento de la lista", "Seleccionar Usuario", JOptionPane.INFORMATION_MESSAGE);
+			mostrarDialog("Seleccione un elemento de la lista", "Seleccionar Usuario", JOptionPane.INFORMATION_MESSAGE);
 	}
 	
 	private void abrirVentanaConfiguracion() {

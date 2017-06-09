@@ -178,6 +178,9 @@ public class MessengerServer extends Thread {
 	}
 	
 	protected static synchronized void enviar(Message msg) throws IOException {
-		clients.get(msg.getRecipient()).send(msg);
+		ServerThread destinatario = clients.get(msg.getRecipient());
+		if (destinatario != null) {
+			destinatario.send(msg);
+		}
 	}
 }
