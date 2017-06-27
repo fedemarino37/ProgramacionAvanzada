@@ -9,14 +9,19 @@ public class Main {
 		// generarEntradas();
 		String[] nombres = new String[] { "aleatorio40", "aleatorio60", "aleatorio90", "regular50", "regular75" };
 		for (String nombre : nombres) {
-			evaluarColoreo(nombre);
+			System.out.println("Arranca coloreo de " + nombre);
+			colorear(nombre);
+			System.out.println("Finalizó el coloreo de " + nombre);
 		}
+//		File in = new File("in/ejemplo.in");
+//		File out = new File("out/ejemplo-powell.out");
+//		System.out.println(ProgramaProbador.evaluarColoreo(in, out));
 	}
 
-	private static void evaluarColoreo(String nombreArchivo) {
+	private static void colorear(String nombreArchivo) {
 		File in = new File(pathEntrada + nombreArchivo + ".in");
 		GrafoNDNP grafo = new GrafoNDNP(in);
-		int cantIteraciones = 1;
+		int cantIteraciones = 10000;
 		int minCantColores = grafo.getOrden() * 2;
 		GrafoNDNP grafoColoreado = null;
 		for (int i = 0; i < cantIteraciones; i++) {

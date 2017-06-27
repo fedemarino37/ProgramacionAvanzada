@@ -57,8 +57,8 @@ public class GrafoNDNP {
 					+ getPorcAdyacencia() + " " + getGradoMax() + " " + getGradoMin());
 			for (int i = 1; i <= orden; i++) {
 				if (coloreado) {
-					int colorNodo = getNodos().get(i - 1).getColor();
-					printWriter.println(i + " " + colorNodo);
+					Nodo nodo = getNodos().get(i - 1);
+					printWriter.println(nodo.getId() + " " + nodo.getColor());
 				} else {
 					for (int j = i + 1; j <= orden; j++) {
 						if (sonAdyacentes(i, j)) {
